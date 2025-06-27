@@ -9,7 +9,20 @@ require("dotenv").config();
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 
-app.use("/assets", express.static(path.join(__dirname, "assets")));
+app.use("/assets", express.static(path.join(__dirname, "assets"), {
+  setHeaders: (res, filePath) => {
+    if (filePath.endsWith(".mp4")) {
+      res.setHeader("Content-Type", "video/mp4");
+    }
+    if (filePath.endsWith(".pdf")) {
+      res.setHeader("Content-Type", "application/pdf");
+    }
+    if (filePath.endsWith(".jpeg") || filePath.endsWith(".jpg")) {
+      res.setHeader("Content-Type", "image/jpeg");
+    }
+  },
+}));
+
 
 app.get("/", (req, res) => {
   res.send("WhatsApp AI Bot is alive and listening!");
