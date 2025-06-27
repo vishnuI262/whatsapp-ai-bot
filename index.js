@@ -23,7 +23,6 @@ app.use("/assets", express.static(path.join(__dirname, "assets"), {
   },
 }));
 
-
 app.get("/", (req, res) => {
   res.send("WhatsApp AI Bot is alive and listening!");
 });
@@ -33,6 +32,7 @@ app.post("/whatsapp", async (req, res) => {
   const twiml = new MessagingResponse();
 
   const aiReply = await aiResponder(incomingMsg);
+  console.log(aiReply);
   twiml.message(aiReply);
 
   const { pdf, image, video } = fileMapper(incomingMsg.toLowerCase());
