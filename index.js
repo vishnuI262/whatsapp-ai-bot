@@ -24,16 +24,16 @@ app.post("/whatsapp", async (req, res) => {
     twiml.message(reply);
 
     if (attachments?.image)
-      twiml.message().media("https://whatsapp-ai-bot-yplb.onrender.com/assets/1680532048475.jpeg");
+      twiml.message().media("https://yourdomain.com/assets/1680532048475.jpeg");
 
     if (attachments?.pdf)
-      twiml.message().media("https://whatsapp-ai-bot-yplb.onrender.com/assets/CNN.pdf");
+      twiml.message().media("https://yourdomain.com/assets/CNN.pdf");
 
     if (attachments?.video)
-      twiml.message().media("https://whatsapp-ai-bot-yplb.onrender.com/assets/cnn.mp4");
+      twiml.message().media("https://yourdomain.com/assets/compressed_cnn.mp4");
 
   } catch (err) {
-    console.error("AI Error:", err);
+    console.error("❌ AI Error:", err);
     twiml.message("Sorry, there was an error processing your request.");
   }
 
