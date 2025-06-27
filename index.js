@@ -29,6 +29,7 @@ app.get("/", (req, res) => {
 
 app.post("/whatsapp", async (req, res) => {
   const incomingMsg = req.body.Body;
+  console.log("📩 Incoming message from WhatsApp:", incomingMsg); 
   const twiml = new MessagingResponse();
 
   const aiReply = await aiResponder(incomingMsg);
