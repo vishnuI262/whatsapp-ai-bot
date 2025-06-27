@@ -9,7 +9,7 @@ module.exports = async function aiResponder(prompt) {
     messages: [
       {
         role: "system",
-        content: `You are an assistant that responds to queries and recommends media files (PDF, image, video) if relevant. Only suggest them if truly needed. If user says 'no video', 'no image', or 'only pdf', respect it. Return JSON like:
+        content: `You are an assistant that responds to queries and recommends media files (PDF, image, video) if relevant. Only suggest them if truly needed. If user says 'no video', 'no image', or 'only pdf', respect it. Reply ONLY in this exact JSON format:
 
 {
   "reply": "Your text response here...",
@@ -21,9 +21,20 @@ module.exports = async function aiResponder(prompt) {
 }`
       },
       { role: "user", content: prompt }
-    ],
-    response_format: "json"
+    ]
+    // ❌ REMOVE THIS:
+    // response_format: "json"
   });
 
-  return JSON.parse(chatCompletion.choices[0].message.content.trim());
+  const response = chatCompletion.choices[0].message.content.trim();
+
+  try {
+    return JSON.parse(response);
+  } catch (err) {
+    console.error("❌ JSON Parse Error:", err);
+    return {
+      reply: response, // fallback to raw reply
+      attachments: { pdf: false, image: false, video: false }
+    };
+  }
 };
